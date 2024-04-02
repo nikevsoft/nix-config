@@ -13,6 +13,7 @@
     inputs.hardware.nixosModules.common-pc-ssd
 
     ../common/optional/gnome.nix
+    ../common/optional/pipewire.nix
     ../common/optional/nvidia.nix
 
     ./hardware-configuration.nix
