@@ -12,6 +12,7 @@
     # inputs.hardware.nixosModules.common-gpu-nvidia # doesn't work
     inputs.hardware.nixosModules.common-pc-ssd
 
+    ../common/optional/gnome.nix
     ../common/optional/nvidia.nix
 
     ./hardware-configuration.nix
@@ -58,6 +59,8 @@
 
   networking.hostName = "gwen";
   networking.networkmanager.enable = true;
+
+  services.printing.enable = true;
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
