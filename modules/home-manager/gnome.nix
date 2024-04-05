@@ -146,9 +146,11 @@
     "org/gnome/shell/extensions/pop-shell" = {
         activate-launcher = [ "<Super>d" ];
         activate-hint = true;
-        activate-hint-border-radius = 5;
+        activate-hint-border-radius = 2;
+        gap-outer = 2;
+        gap-inner = 2;
         fullscreen-launcher = true;
-        hint-color-rgba = "rgb(232,236,241)";
+        hint-color-rgba = "rgb(250, 234, 55)";
         pop-monitor-down = [];
         pop-monitor-up = [];
         pop-monitor-left = [];
@@ -169,6 +171,7 @@
       disable-overview-on-startup = true;
       dash-max-icon-size = 40;
       dock-position = "LEFT";
+      hot-keys = false;
     };
   };
 
