@@ -23,13 +23,15 @@
     yelp
   ]);
 
-  environment.systemPackages = with pkgs.gnome; [
+  environment.systemPackages = (with pkgs; [
+    colord
+  ]) ++ (with pkgs.gnome; [
     totem
     gnome-tweaks
     gnome-session
     gnome-terminal
     gnome-settings-daemon
-  ];
+  ]);
 
   programs.dconf.enable = true;
 }
