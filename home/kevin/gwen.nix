@@ -15,7 +15,7 @@
     # Or modules exported from other flakes (such as nix-colors):
     # inputs.nix-colors.homeManagerModules.default
 
-    ./gnome.nix
+    ../common/optional/gnome.nix
   ];
 
   nixpkgs = {

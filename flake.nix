@@ -50,8 +50,8 @@
       # Available through 'nixos-rebuild --flake .#your-hostname'
       nixosConfigurations = {
         gwen = lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
           modules = [ ./hosts/gwen ];
+          specialArgs = { inherit inputs outputs; };
         };
       };
 
@@ -59,12 +59,9 @@
       # Available through 'home-manager --flake .#your-username@your-hostname'
       homeConfigurations = {
         "kevin@gwen" = lib.homeManagerConfiguration {
+          modules = [ ./home/kevin/gwen.nix ];
           pkgs = pkgsFor.x86_64-linux; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = { inherit inputs outputs; };
-          modules = [
-            # > Our main home-manager configuration file <
-            ./home-manager/home.nix
-          ];
         };
       };
     };
