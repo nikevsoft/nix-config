@@ -4,5 +4,6 @@
   imports = [
     ../common/core
     ../common/optional/gnome.nix
+    ../common/optional/firefox.nix
   ];
 }
