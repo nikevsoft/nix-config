@@ -1,6 +1,8 @@
 { pkgs, ... }:
 
 {
+  imports = [ ../common ];
+
   gtk = {
     enable = true;
 

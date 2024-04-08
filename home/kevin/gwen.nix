@@ -2,8 +2,8 @@
 
 {
   imports = [
-    ../common/core
-    ../common/optional/gnome.nix
-    ../common/optional/firefox.nix
+    ./common/core
+    ./common/optional/cli
+    ./common/optional/desktop/gnome
   ];
 }
