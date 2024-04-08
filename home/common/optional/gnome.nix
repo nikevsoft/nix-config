@@ -10,7 +10,7 @@
     };
 
     theme = {
-      name = "Flat-Remix-GTK-Yellow-Dark";
+      name = "Flat-Remix-GTK-Blue-Dark";
       package = pkgs.flat-remix-gtk;
     };
 
@@ -32,7 +32,7 @@
     };
   };
 
-  home.sessionVariables.GTK_THEME = "Flat-Remix-Yellow-Dark";
+  home.sessionVariables.GTK_THEME = "Flat-Remix-Blue-Dark";
 
   dconf.settings = {
     "org/gnome/desktop/interface" = {
@@ -140,7 +140,7 @@
     };
 
     "org/gnome/shell/extensions/user-theme" = {
-      name = "Flat-Remix-Yellow-Dark";
+      name = "Flat-Remix-Blue-Dark";
     };
 
     "org/gnome/shell/extensions/pop-shell" = {
@@ -148,9 +148,9 @@
       activate-hint = true;
       activate-hint-border-radius = 2;
       gap-outer = 2;
-      gap-inner = 2;
+      gap-inner = 1;
       fullscreen-launcher = true;
-      hint-color-rgba = "rgb(250, 234, 55)";
+      hint-color-rgba = "rgb(181, 203, 255)";
       pop-monitor-down = [ ];
       pop-monitor-up = [ ];
       pop-monitor-left = [ ];
