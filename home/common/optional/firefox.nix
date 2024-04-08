@@ -4,6 +4,47 @@
   programs.firefox = {
     enable = true;
 
+    policies = {
+      CaptivePortal = false;
+      DisableFirefoxStudies = true;
+      DisablePocket = true;
+      DisableTelemetry = true;
+      DisableFirefoxAccounts = false;
+      DisableFormHistory = true;
+      NoDefaultBookmarks = true;
+      OfferToSaveLogins = false;
+      OfferToSaveLoginsDefault = false;
+      PasswordManagerEnabled = false;
+      SearchBar = "unified";
+      FirefoxHome = {
+        Search = true;
+        Pocket = false;
+        Snippets = false;
+        TopSites = false;
+        Highlights = false;
+      };
+      UserMessaging = {
+        ExtensionRecommendations = false;
+        SkipOnboarding = true;
+      };
+
+      ExtensionSettings = with builtins;
+        let
+          extension = shortID: uuid: {
+            name = uuid;
+            value = {
+              install_url = "https://addons.mozilla.org/firefox/downloads/latest/${shortID}/latest.xpi";
+              installation_mode = "normal_installed"; # or "force_installed"
+              default_area = "menupanel"; # or "navbar"
+            };
+          };
+        in
+        listToAttrs [
+          #{ name = "*"; value = { installation_mode = "blocked"; }; } # blocked all other extensions
+          (extension "cookie-editor" "{c3c10168-4186-445c-9c5b-63f12b8e2c87}")
+        ];
+    };
+
     profiles = {
       kevin = {
         id = 0;
@@ -12,83 +53,99 @@
           darkreader
           ublock-origin
           vimium
+          sponsorblock
         ];
+
+        search = {
+          force = true;
+          default = "DuckDuckGo";
+          engines = {
+            "Nix Packages" = {
+              urls = [{
+                template = "https://search.nixos.org/packages";
+                params = [
+                  { name = "type"; value = "packages"; }
+                  { name = "query"; value = "{searchTerms}"; }
+                ];
+              }];
+              icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+              definedAliases = [ "@np" ];
+            };
+            "NixOS Wiki" = {
+              urls = [{ template = "https://nixos.wiki/index.php?search={searchTerms}"; }];
+              iconUpdateURL = "https://nixos.wiki/favicon.png";
+              updateInterval = 24 * 60 * 60 * 1000;
+              definedAliases = [ "@nw" ];
+            };
+            "Github" = {
+              urls = [{
+                template = "https://github.com/search";
+                params = [
+                  { name = "q"; value = "{searchTerms}"; }
+                ];
+              }];
+              iconUpdateURL = "https://github.githubassets.com/favicons/favicon-dark.svg";
+              updateInterval = 24 * 60 * 60 * 1000;
+              definedAliases = [ "@gh" ];
+            };
+            "Wikipedia (en)".metaData.alias = "@wiki";
+            "Google".metaData.hidden = true;
+            "Amazon.com".metaData.hidden = true;
+            "Bing".metaData.hidden = true;
+            "eBay".metaData.hidden = true;
+          };
+        };
       };
 
       guest = {
         id = 1;
         extensions = with inputs.firefox-addons.packages.${pkgs.system}; [
-          foxyproxy-standard
           darkreader
           ublock-origin
           vimium
+          sponsorblock
+          foxyproxy-standard
         ];
-      };
-    };
 
-    policies = {
-      DisableTelemetry = true;
-      DisableFirefoxStudies = true;
-      EnableTrackingProtection = {
-        Value = true;
-        Locked = true;
-        Cryptomining = true;
-        Fingerprinting = true;
-      };
-      DisablePocket = true;
-      DisableFirefoxAccounts = false;
-      DisableAccounts = false;
-      DisableFirefoxScreenshots = false;
-      OverrideFirstRunPage = "";
-      OverridePostUpdatePage = "";
-      DontCheckDefaultBrowser = true;
-      DisplayBookmarksToolbar = "newtab"; # alternatives: "always" or "newtab"
-      DisplayMenuBar = "default-off"; # alternatives: "always", "never" or default-on"
-      SearchBar = "unified"; # alternative: "separate"
-
-      # Check about:config for options.
-      Preferences =
-        let
-          newtab = "browser.newtabpage.activity-stream";
-          lock-false = {
-            Value = false;
-            Status = "locked";
+        search = {
+          force = true;
+          default = "DuckDuckGo";
+          engines = {
+            "Nix Packages" = {
+              urls = [{
+                template = "https://search.nixos.org/packages";
+                params = [
+                  { name = "type"; value = "packages"; }
+                  { name = "query"; value = "{searchTerms}"; }
+                ];
+              }];
+              icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+              definedAliases = [ "@np" ];
+            };
+            "NixOS Wiki" = {
+              urls = [{ template = "https://nixos.wiki/index.php?search={searchTerms}"; }];
+              iconUpdateURL = "https://nixos.wiki/favicon.png";
+              updateInterval = 24 * 60 * 60 * 1000;
+              definedAliases = [ "@nw" ];
+            };
+            "Github" = {
+              urls = [{
+                template = "https://github.com/search";
+                params = [
+                  { name = "q"; value = "{searchTerms}"; }
+                ];
+              }];
+              icon = "https://github.githubassets.com/favicons/favicon.svg";
+              definedAliases = [ "@gh" ];
+            };
+            "Wikipedia (en)".metaData.alias = "@wiki";
+            "Google".metaData.hidden = true;
+            "Amazon.com".metaData.hidden = true;
+            "Bing".metaData.hidden = true;
+            "eBay".metaData.hidden = true;
           };
-          lock-true = {
-            Value = true;
-            Status = "locked";
-          };
-        in
-        {
-          "browser.contentblocking.category" = { Value = "strict"; Status = "locked"; };
-          "browser.migrate.chrome.payment_methods.enabled" = lock-false;
-          "browser.topsites.contile.enabled" = lock-false;
-          "browser.formfill.enable" = lock-false;
-          "browser.search.suggest.enabled" = lock-false;
-          "browser.search.suggest.enabled.private" = lock-false;
-          "browser.urlbar.suggest.searches" = lock-false;
-          "browser.urlbar.showSearchSuggestionsFirst" = lock-false;
-          "browser.tabs.crashReporting.sendReport" = lock-false;
-          "browser.crashReports.unsubmittedCheck.autoSubmit2" = lock-false;
-          "${newtab}.feeds.section.highlights" = lock-false;
-          "${newtab}.feeds.section.topstories" = lock-false;
-          "${newtab}.feeds.snippets" = lock-false;
-          "${newtab}.section.highlights.includePocket" = lock-false;
-          "${newtab}.section.highlights.includeBookmarks" = lock-false;
-          "${newtab}.section.highlights.includeDownloads" = lock-false;
-          "${newtab}.section.highlights.includeVisited" = lock-false;
-          "${newtab}.showSponsored" = lock-false;
-          "${newtab}.system.showSponsored" = lock-false;
-          "${newtab}.showSponsoredTopSites" = lock-false;
-          "dom.reporting.crash.enabled" = lock-false;
-          "dom.security.https_only_mode" = lock-true;
-          "extensions.pocket.enabled" = lock-false;
-          "extensions.screenshots.disabled" = lock-true;
-          "extensions.formautofill.addresses.enabled" = lock-false;
-          "extensions.formautofill.creditCards.enabled" = lock-false;
-          "signon.rememberSignons" = lock-false;
-          "signon.rememberSignons.visibilityToggle" = lock-false;
         };
+      };
     };
   };
 }
