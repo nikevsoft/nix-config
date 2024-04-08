@@ -1,7 +1,10 @@
 { pkgs, ... }:
 
 {
-  imports = [ ./git.nix ];
+  imports = [
+    ./git.nix
+    ./gh.nix
+  ];
 
   home.packages = with pkgs; [
     lazygit
