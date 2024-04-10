@@ -12,7 +12,7 @@
   hardware.nvidia = {
     modesetting.enable = true;
 
-    powerManagement.enable = false;
+    powerManagement.enable = true; # enable because of graphical coruption on sleep/suspend
     powerManagement.finegrained = false;
 
     # use nouveau
