@@ -24,10 +24,14 @@
       lib = nixpkgs.lib // home-manager.lib;
       systems = [ "x86_64-linux" ];
       forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
-      pkgsFor = lib.genAttrs systems (system: import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      });
+      pkgsFor = lib.genAttrs systems (
+        system: import nixpkgs {
+          inherit system;
+          config = {
+            allowUnfree = true;
+          };
+        }
+      );
     in
     {
       inherit lib;
