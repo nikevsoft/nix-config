@@ -22,19 +22,15 @@
     };
 
     gtk3.extraConfig = {
-      Settings = ''
-        gtk-application-prefer-dark-theme=1
-      '';
+       gtk-application-prefer-dark-theme = 1;
     };
 
     gtk4.extraConfig = {
-      Settings = ''
-        gtk-application-prefer-dark-theme=1
-      '';
+       gtk-application-prefer-dark-theme = 1;
     };
   };
 
-  home.sessionVariables.GTK_THEME = "Flat-Remix-Blue-Dark";
+  home.sessionVariables.GTK_THEME = "Flat-Remix-GTK-Blue-Dark"; # must match the gtk theme name
 
   dconf.settings = {
     "org/gnome/desktop/interface" = {
