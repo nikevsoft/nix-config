@@ -16,6 +16,7 @@
       OfferToSaveLoginsDefault = false;
       PasswordManagerEnabled = false;
       SearchBar = "unified";
+
       FirefoxHome = {
         Search = true;
         Pocket = false;
@@ -23,6 +24,7 @@
         TopSites = false;
         Highlights = false;
       };
+
       UserMessaging = {
         ExtensionRecommendations = false;
         SkipOnboarding = true;
@@ -43,6 +45,21 @@
           #{ name = "*"; value = { installation_mode = "blocked"; }; } # blocked all other extensions
           (extension "cookie-editor" "{c3c10168-4186-445c-9c5b-63f12b8e2c87}")
         ];
+
+      Preferences =
+        let
+          lock-false = {
+            Value = false;
+            Status = "locked";
+          };
+          lock-true = {
+            Value = true;
+            Status = "locked";
+          };
+        in
+        {
+          "dom.events.asyncClipboard.clipboardItem" = lock-true; # required by sites like excalidraw for some features
+        };
     };
 
     profiles = {
