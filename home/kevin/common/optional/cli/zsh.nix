@@ -22,6 +22,4 @@
       plugins = [ "sudo" ];
     };
   };
-
-  home.sessionVariables.SHELL = "zsh";
 }
